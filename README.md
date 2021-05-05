@@ -1,6 +1,6 @@
-# Detect changes between two branches
+# Check if pull request already exists
 
-A Github action to detect if source branch is ahead of target branch.
+A Github action to detect if pull request from source branch to target branch already exists.
 
 ### Action inputs
 
@@ -14,5 +14,5 @@ A Github action to detect if source branch is ahead of target branch.
 
 The following outputs can be used by subsequent workflow steps.
 
-- `is-source-branch-ahead` - Check if source branch is ahead of target branch.
-# check-if-pr-exists
+- `is-pr-already-created` - Check if pr is already created
+
