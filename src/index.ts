@@ -11,7 +11,7 @@ async function run() {
   const client = github.getOctokit(token)
 
   try {
-    core.setOutput(IS_PR_ALREADY_CREATED, 'false');
+    core.setOutput(IS_PR_ALREADY_CREATED, 'true');
     const { data: pulls } = await client.pulls.list({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
@@ -20,9 +20,9 @@ async function run() {
     const prFromSourceToTarget = pulls.find(
       ({ head, base }) => head.ref === sourceBranch && base.ref === targetBranch
     )
-    if (prFromSourceToTarget) {
+    if (!prFromSourceToTarget) {
       // PR from {{ sourceBranch }} to {{ targetBranch }} already exists
-      core.setOutput(IS_PR_ALREADY_CREATED, 'true');
+      core.setOutput(IS_PR_ALREADY_CREATED, 'false');
       return
     }
   } catch (error) {

@@ -46,16 +46,16 @@ function run() {
         const targetBranch = core.getInput('target-branch');
         const client = github.getOctokit(token);
         try {
-            core.setOutput(IS_PR_ALREADY_CREATED, 'false');
+            core.setOutput(IS_PR_ALREADY_CREATED, 'true');
             const { data: pulls } = yield client.pulls.list({
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo,
                 state: 'open',
             });
             const prFromSourceToTarget = pulls.find(({ head, base }) => head.ref === sourceBranch && base.ref === targetBranch);
-            if (prFromSourceToTarget) {
+            if (!prFromSourceToTarget) {
                 // PR from {{ sourceBranch }} to {{ targetBranch }} already exists
-                core.setOutput(IS_PR_ALREADY_CREATED, 'true');
+                core.setOutput(IS_PR_ALREADY_CREATED, 'false');
                 return;
             }
         }
